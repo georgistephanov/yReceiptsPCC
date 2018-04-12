@@ -2,45 +2,13 @@
 #ifndef CARD_INFORMATION_EXTRACTER_H
 #define CARD_INFORMATION_EXTRACTER_H
 
-#include <algorithm>
-#include <regex>
-
 class CardInformationExtracter {
 public:
-	CardInformationExtracter(std::string cardInfo) : cardInformation(cardInfo) {
-		lowercaseString(cardInformation);
-	}
+	CardInformationExtracter(std::string);
 
-	const std::string extractCardType() const {
-		for (std::string cardType : cardTypes) {
-			if (cardInformation.find(cardType) != std::string::npos) {
-				return cardType;
-			}
-		}
-		return "";
-	}
-
-	const std::string extractTrailingDigits() const {
-		std::regex accountNumRegex(accountNumberRegex);
-		std::smatch matches;
-
-		if (std::regex_search(cardInformation, matches, accountNumRegex)) {
-			return matches[1];
-		}
-		
-		return "";
-	}
-
-	const std::string extractExpiryDate() const {
-		std::regex dateRegex(expiryDateRegex);
-		std::smatch matches;
-
-		if (std::regex_search(cardInformation, matches, dateRegex)) {
-			return matches[0];
-		}
-
-		return "";
-	}
+	const std::string extractCardType() const;
+	const std::string extractTrailingDigits() const;
+	const std::string extractExpiryDate() const;
 
 private:
 	std::string cardInformation;
@@ -51,7 +19,7 @@ private:
 		"mastercard", "visa"
 	};
 
-	void lowercaseString(std::string& cardInformation) {
+	inline void lowercaseString(std::string& cardInformation) {
 		std::transform(cardInformation.begin(), cardInformation.end(), cardInformation.begin(), ::tolower);
 	}
 };
